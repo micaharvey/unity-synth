@@ -11,12 +11,21 @@ public class Synth : MonoBehaviour
     private Envelope envelope;
     private Oscillator oscillator;
     private DownSample downSample;
+    private const int numDelays = 8;
+    private Delay[] delays = new Delay[numDelays];
+    // private float[] delaySamples = new float[numDelays];
+    
 
     void Awake() {
         // frequencies = new float[8];
         envelope = GetComponent<Envelope>();
         oscillator = GetComponent<Oscillator>();
         downSample = GetComponent<DownSample>();
+        for (int i = 0; i < numDelays; i++)
+        {
+            int delayLength = (int) (sample_freq / 2f) * (i + 1);
+            delays[i] = new Delay(delayLength);
+        }
         envelope.amplifier = volume;
     }
 
@@ -53,7 +62,15 @@ public class Synth : MonoBehaviour
             float sample =(float)(envelope.GetLevel() * oscillator.Tick());
             float downSampled = downSample.Tick(sample);
 
-            data[i] = downSampled;
+            float delayedSample = 0f;
+            for (int j = 0; j < numDelays; j++)
+            {
+                delayedSample += delays[j].Tick(downSampled) * Mathf.Pow(0.5f, (j + 1));
+            }
+
+            float finalSample = downSampled + delayedSample;
+
+            data[i] = finalSample;
             if (channels == 2) data[i+1] = data[i];
         }
     }
