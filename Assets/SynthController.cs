@@ -100,5 +100,13 @@ public class SynthController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.O)) Off(62 + 12);
         if (Input.GetKeyDown(KeyCode.P)) Play(64 + 12);
         if (Input.GetKeyUp(KeyCode.P)) Off(64 + 12);
+        if (Input.GetKeyDown(KeyCode.LeftBracket)) Play(65 + 12);
+        if (Input.GetKeyUp(KeyCode.LeftBracket)) Off(65 + 12);
+        if (Input.GetKeyDown(KeyCode.RightBracket)) Play(67 + 12);
+        if (Input.GetKeyUp(KeyCode.RightBracket)) Off(67 + 12);
+        if (Input.GetKeyDown(KeyCode.Backslash)) Play(69 + 12);
+        if (Input.GetKeyUp(KeyCode.Backslash)) Off(69 + 12);
+        if (Input.GetKeyDown(KeyCode.Pipe)) Play(69 + 12);
+        if (Input.GetKeyUp(KeyCode.Pipe)) Off(69 + 12);
     }
 }

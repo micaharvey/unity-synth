@@ -6,6 +6,8 @@ public class Oscillator : MonoBehaviour
 	public float multiplier = 1.0f;
 	public float modulation = 0.0f;
 
+	public bool square = false;
+
 	private float mx = 0.0f;
 	private float cx = 0.0f;
 	private float step = 0.0f;
@@ -27,6 +29,14 @@ public class Oscillator : MonoBehaviour
 		step = freq / 48000f;
 	}
 	
+	private float Sign(float samp) {
+		if (samp >= 0f) {
+			return 1f * multiplier;
+		} else {
+			return -1f * multiplier;
+		}
+	}
+
 	public float Tick() {
 		mx += step * multiplier;
 		cx += step;
@@ -34,6 +44,8 @@ public class Oscillator : MonoBehaviour
 		cx -= Mathf.Floor(cx);
 		var x = cx + modulation * fast_sin(kPi2 * mx);
 		x -= Mathf.Floor(x);
-		return fast_sin(kPi2 * x);
+		float toReturn = fast_sin(kPi2 * x);
+		if (square) toReturn = Sign(toReturn);
+		return toReturn;
 	}
 }

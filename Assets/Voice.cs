@@ -11,6 +11,8 @@ public class Voice : MonoBehaviour
     public bool playing = false;
     public int note = 0;
 
+    public bool clean = false;
+
     public Envelope envelope;
     public Oscillator oscillator;
     private DownSample downSample;
@@ -51,6 +53,8 @@ public class Voice : MonoBehaviour
             }
 
             float finalSample = downSampled + delayedSample;
+
+            if (clean) finalSample = sample;
 
             data[i] = finalSample;
             if (channels == 2) data[i+1] = data[i];
