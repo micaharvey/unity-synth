@@ -5,7 +5,7 @@ using UnityEngine;
 public class SynthController : MonoBehaviour
 {
     public int vIndex = 0;
-    private static int NUM_VOICES = 4;
+    private static int NUM_VOICES = 8;
     private Voice[] voices = new Voice[NUM_VOICES];
     // Start is called before the first frame update
     void Start()
