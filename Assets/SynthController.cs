@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MidiJack;
 
 public class SynthController : MonoBehaviour
 {
@@ -70,6 +71,18 @@ public class SynthController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // check for midi events
+        for (int i = 36; i < 127; i++)
+        {
+            if (MidiMaster.GetKeyDown(0, i)) Play(i);
+        }
+
+        for (int i = 36; i < 127; i++)
+        {
+            if (MidiMaster.GetKeyUp(0, i)) Off(i);
+        }
+
+
         // check for keyboard events
         if (Input.GetKeyDown(KeyCode.Space)) Play();
         if (Input.GetKeyUp(KeyCode.Space)) Off();
