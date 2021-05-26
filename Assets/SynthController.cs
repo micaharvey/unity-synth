@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SynthController : MonoBehaviour
 {
+    public ParticleSystem WhiteParticleSystem;
+    public ParticleSystem BlueParticleSystem;
     public int vIndex = 0;
     private static int NUM_VOICES = 8;
     private Voice[] voices = new Voice[NUM_VOICES];
@@ -17,7 +19,8 @@ public class SynthController : MonoBehaviour
         }
     }
 
-    void incrementVoiceIndex() {
+    void incrementVoiceIndex()
+    {
         vIndex = (vIndex + 1) % NUM_VOICES;
     }
 
@@ -38,6 +41,17 @@ public class SynthController : MonoBehaviour
         voices[vIndex].note = key;
         voices[vIndex].envelope.KeyOn();
         voices[vIndex].oscillator.SetNote(key);
+
+        // shine bright like a diamond
+        if (vIndex % 2 == 1)
+        {
+            WhiteParticleSystem.Play();
+        }
+        else
+        {
+            BlueParticleSystem.Play();
+        }
+
         incrementVoiceIndex();
     }
 
