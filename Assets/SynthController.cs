@@ -10,13 +10,47 @@ public class SynthController : MonoBehaviour
     public int vIndex = 0;
     private static int NUM_VOICES = 8;
     private Voice[] voices = new Voice[NUM_VOICES];
+    private Oscillator[] oscs = new Oscillator[NUM_VOICES];
+    private Envelope[] envelopes = new Envelope[NUM_VOICES];
     // Start is called before the first frame update
     void Start()
     {
         int index = 0;
         foreach (Transform child in transform)
         {
-            voices[index++] = child.GetComponent<Voice>();
+            voices[index] = child.GetComponent<Voice>();
+            oscs[index] = child.GetComponent<Oscillator>();
+            envelopes[index] = child.GetComponent<Envelope>();
+            index++;
+        }
+    }
+
+    public void SetWaveForm(bool sine)
+    {
+        foreach (Oscillator o in oscs)
+        {
+            o.square = !sine;
+        }
+    }
+
+    public void SetReverb(bool reverb)
+    {
+        foreach (Voice v in voices)
+        {
+            v.clean = !reverb;
+        }
+
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<AudioReverbFilter>().enabled = reverb;
+        }
+    }
+
+    public void SetSustain(bool sus)
+    {
+        foreach (Envelope e in envelopes)
+        {
+            e.sustain = sus;
         }
     }
 
@@ -75,13 +109,8 @@ public class SynthController : MonoBehaviour
         for (int i = 36; i < 127; i++)
         {
             if (MidiMaster.GetKeyDown(0, i)) Play(i);
-        }
-
-        for (int i = 36; i < 127; i++)
-        {
             if (MidiMaster.GetKeyUp(0, i)) Off(i);
         }
-
 
         // check for keyboard events
         if (Input.GetKeyDown(KeyCode.Space)) Play();
